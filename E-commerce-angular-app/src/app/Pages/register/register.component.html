@@ -1,0 +1,47 @@
+<section>
+  <div class="container">
+    <h1>Register Form</h1>
+    <form [formGroup]="registrationForm" (ngSubmit)="submit()">
+      <!--Username-->
+      <div class="field">
+        <p-inputGroup>
+          <p-inputGroupAddon>
+              <i class="pi pi-user"></i>
+          </p-inputGroupAddon>
+          <input pInputText formControlName = "name" placeholder="Username" />
+        </p-inputGroup>
+      </div>
+      <!--Email-->
+      <div class="field">
+        <p-inputGroup>
+          <p-inputGroupAddon>
+              <i class="pi pi-envelope"></i>
+          </p-inputGroupAddon>
+          <input pInputText formControlName = "email" placeholder="Username" />
+        </p-inputGroup>
+      </div>
+      <!--Password-->
+      <div class="field">
+        <p-inputGroup>
+          <p-inputGroupAddon>
+              <i class="pi pi-lock"></i>
+          </p-inputGroupAddon>
+          <input pInputText formControlName = "password" placeholder="Username" />
+        </p-inputGroup>
+      </div>
+      <!--Re-Password-->
+      <div class="field">
+        <p-inputGroup>
+          <p-inputGroupAddon>
+              <i class="pi pi-lock"></i>
+          </p-inputGroupAddon>
+          <input pInputText formControlName = "rePassword" placeholder="Username" />
+        </p-inputGroup>
+      </div>
+
+      <div class="card flex justify-content-center">
+        <p-button type="submit" label="Submit" />
+      </div>
+    </form>
+  </div>
+</section>
