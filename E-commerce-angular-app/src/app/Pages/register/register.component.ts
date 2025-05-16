@@ -6,6 +6,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { Message } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
+import { AuthService } from '../../Core/service/auth.service';
+import { IRegister } from '../../Core/interfaces/iregister';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-register',
@@ -18,14 +22,21 @@ import { MessagesModule } from 'primeng/messages';
     InputTextModule,
     ButtonModule,
     MessagesModule,
+    ToastModule
   ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrl: './register.component.scss',
+  providers: [MessageService]
 })
 export class RegisterComponent {
   registrationForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private _authService: AuthService,
+    private _messageService: MessageService
+  )
+  {
     this.registrationForm = this.fb.group(
       {
         name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
@@ -45,7 +56,7 @@ export class RegisterComponent {
       const password = formGroup.get('password')?.value;
       const rePassword = formGroup.get('rePassword')?.value;
       const rePasswordControl = formGroup.get('rePassword') as FormControl;
-      if (password !== rePassword) {
+      if (password !== rePassword || rePassword === '') {
         rePasswordControl.setErrors({ passNotMatch: true });
         return { passNotMatch: true };
       }
@@ -54,7 +65,37 @@ export class RegisterComponent {
   }
 
   submit(){
-    console.log(this.registrationForm)
+    if(this.registrationForm.valid){
+      this.signUp(this.registrationForm.value);
+    }
+    else{
+      this.registrationForm.markAllAsTouched();
+      Object.keys(this.registrationForm.controls).
+      forEach((control)=>this.registrationForm.controls[control].markAsDirty())
+    }
+  }
+
+  signUp(data : IRegister) : void {
+    this._authService.register(data).subscribe({
+      next: (response) => {
+        if(response._id){
+          console.log(response);
+          this.show('success' , 'Success' , 'User registered successfully');
+        }
+      },
+      error: (err) => {
+          this.show('error', 'Error' , err.error.error);
+          console.log(err.error.error);
+      }
+    });
+  }
+
+  show(severity: string, summary: string, detail: string) {
+    this._messageService.add({
+      severity: severity,
+      summary: summary,
+      detail: detail
+    });
   }
 
   get name() {
@@ -70,30 +111,4 @@ export class RegisterComponent {
     return this.registrationForm.get('rePassword');
   }
 
-  // name!: FormControl
-  // email!: FormControl
-  // password!: FormControl
-  // rePassword!: FormControl
-  // registrationForm!: FormGroup
-
-  // constructor(){
-  //   this.initFormControls()
-  //   this.initFormGroup()
-  // }
-
-  // initFormControls():void {
-  //   this.name = new FormControl();
-  //   this.email = new FormControl();
-  //   this.password = new FormControl();
-  //   this.rePassword = new FormControl();
-  // }
-
-  // initFormGroup():void {
-  //   this.registrationForm = new FormGroup(({
-  //     name: this.name,
-  //     email: this.email,
-  //     password: this.password,
-  //     rePassword: this.rePassword,
-  //   }))
-  // }
 }
