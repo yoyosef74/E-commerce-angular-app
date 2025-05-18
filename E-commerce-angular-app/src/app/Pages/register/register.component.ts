@@ -10,6 +10,9 @@ import { AuthService } from '../../Core/service/auth.service';
 import { IRegister } from '../../Core/interfaces/iregister';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerService } from "ngx-spinner";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -22,7 +25,8 @@ import { MessageService } from 'primeng/api';
     InputTextModule,
     ButtonModule,
     MessagesModule,
-    ToastModule
+    ToastModule,
+    NgxSpinnerModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -34,7 +38,9 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private _authService: AuthService,
-    private _messageService: MessageService
+    private _messageService: MessageService,
+    private _ngxSpinnerService: NgxSpinnerService,
+    private _router: Router
   )
   {
     this.registrationForm = this.fb.group(
@@ -76,16 +82,18 @@ export class RegisterComponent {
   }
 
   signUp(data : IRegister) : void {
+    this._ngxSpinnerService.show();
     this._authService.register(data).subscribe({
       next: (response) => {
         if(response._id){
-          console.log(response);
           this.show('success' , 'Success' , 'User registered successfully');
+          this._ngxSpinnerService.hide();
+          this._router.navigate(['login']);
         }
       },
       error: (err) => {
           this.show('error', 'Error' , err.error.error);
-          console.log(err.error.error);
+          this._ngxSpinnerService.hide();
       }
     });
   }
