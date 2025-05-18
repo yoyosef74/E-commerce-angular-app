@@ -54,9 +54,10 @@ export class LoginComponent {
         if(response._id){
           console.log(response);
           this.show('success' , 'Success' , 'Success Login');
-          this._ngxSpinnerService.hide();
-          this._router.navigate(['user']);
+          localStorage.setItem('token' , response._id)
         }
+        this._ngxSpinnerService.hide();
+        this._router.navigate(['user']);
       },
       error: (err) => {
         console.log(err);
