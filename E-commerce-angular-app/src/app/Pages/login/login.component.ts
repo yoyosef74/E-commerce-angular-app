@@ -1,36 +1,21 @@
-import { Component } from '@angular/core';
-import { FormBuilder ,Validators, ReactiveFormsModule,FormControl, FormGroup, FormsModule, ValidatorFn, AbstractControl } from '@angular/forms';
-import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { Message } from 'primeng/api';
-import { MessagesModule } from 'primeng/messages';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { FormBuilder ,Validators, FormGroup} from '@angular/forms';
 import { AuthService } from '../../Core/service/auth.service';
-import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { NgxSpinnerModule } from "ngx-spinner";
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
 import { ILogin } from '../../Core/interfaces/http';
+import { SharedModule } from '../../shared/module/shared/shared.module';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
-    FormsModule,
-    InputGroupModule,
-    InputGroupAddonModule,
-    InputTextModule,
-    ButtonModule,
-    MessagesModule,
-    ToastModule,
-    NgxSpinnerModule
+    SharedModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  providers: [MessageService]
+  encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent {
   loginForm: FormGroup;

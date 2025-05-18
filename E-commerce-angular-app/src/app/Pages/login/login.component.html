@@ -8,7 +8,7 @@
           <p-inputGroupAddon>
               <i class="pi pi-envelope"></i>
           </p-inputGroupAddon>
-          <input pInputText formControlName = "email" placeholder="Enter your email" />
+          <input [autofocus]="true" pInputText formControlName = "email" placeholder="Enter your email" />
         </p-inputGroup>
         <div class="validation-msg">
           @if (email?.touched && email?.dirty) {

@@ -1,36 +1,22 @@
-import { Component } from '@angular/core';
-import { FormBuilder ,Validators, ReactiveFormsModule,FormControl, FormGroup, FormsModule, ValidatorFn, AbstractControl } from '@angular/forms';
-import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { Message } from 'primeng/api';
-import { MessagesModule } from 'primeng/messages';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { FormBuilder ,Validators,FormControl, FormGroup, ValidatorFn, AbstractControl } from '@angular/forms';
 import { AuthService } from '../../Core/service/auth.service';
 import { IRegister } from '../../Core/interfaces/http';
-import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { NgxSpinnerModule } from "ngx-spinner";
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
+import { SharedModule } from '../../shared/module/shared/shared.module';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
-    FormsModule,
-    InputGroupModule,
-    InputGroupAddonModule,
-    InputTextModule,
-    ButtonModule,
-    MessagesModule,
-    ToastModule,
-    NgxSpinnerModule
+    SharedModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
-  providers: [MessageService]
+  encapsulation: ViewEncapsulation.None
+
 })
 export class RegisterComponent {
   registrationForm: FormGroup;
@@ -87,9 +73,14 @@ export class RegisterComponent {
       next: (response) => {
         if(response._id){
           this.show('success' , 'Success' , 'User registered successfully');
-          this._ngxSpinnerService.hide();
-          this._router.navigate(['login']);
+          const {email , password} = data
+          this._authService.login({email , password}).subscribe({
+            next: () => {
+              this._router.navigate(['user']);
+            }
+          })
         }
+        this._ngxSpinnerService.hide();
       },
       error: (err) => {
           this.show('error', 'Error' , err.error.error);
