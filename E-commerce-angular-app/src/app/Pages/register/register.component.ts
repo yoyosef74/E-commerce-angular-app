@@ -7,7 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { Message } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
 import { AuthService } from '../../Core/service/auth.service';
-import { IRegister } from '../../Core/interfaces/iregister';
+import { IRegister } from '../../Core/interfaces/http';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { NgxSpinnerModule } from "ngx-spinner";
@@ -47,7 +47,7 @@ export class RegisterComponent {
       {
         name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required]],
+        password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
         rePassword: ['', [Validators.required]]
       },
       {

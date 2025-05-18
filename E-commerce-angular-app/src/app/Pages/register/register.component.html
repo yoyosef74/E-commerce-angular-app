@@ -117,6 +117,32 @@
                   [closable]="false"
               />
             }
+            @if (password?.getError('minlength')) {
+            <p-messages
+                  [value]="[
+                    {
+                      severity: 'error',
+                      summary: 'validation error',
+                      detail: 'must be at least 5 characters'
+                    }
+                  ]"
+                  [enableService]="false"
+                  [closable]="false"
+              />
+            }
+            @if (password?.getError('maxlength')) {
+              <p-messages
+                  [value]="[
+                    {
+                      severity: 'error',
+                      summary: 'validation error',
+                      detail: 'cannot exceeds 20 characters'
+                    }
+                  ]"
+                  [enableService]="false"
+                  [closable]="false"
+              />
+            }
           }
         </div>
       </div>

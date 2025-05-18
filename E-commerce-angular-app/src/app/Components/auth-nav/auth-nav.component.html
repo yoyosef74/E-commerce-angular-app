@@ -34,9 +34,12 @@
 
       <ng-template pTemplate="end">
         @for (item of items; track $index) {
-          <a [routerLink]="[item?.['path']]" pRipple
-                class="p-menuitem-link p-link inline-flex justify-content-center
-                      align-items-center hover:bg-black-alpha-10 transition-all transition-duration-200 p-2 text-black-alpha-50">
+          <a
+            routerLinkActive="bg-black-alpha-10"
+            [routerLink]="[item?.['path']]"
+            pRipple
+            class="m-1 p-menuitem-link p-link inline-flex justify-content-center
+                  align-items-center hover:bg-black-alpha-10 transition-all transition-duration-200 p-2 text-black-alpha-50">
             <span [class]="item.icon"></span>
             <span class="ml-2">{{ item.label }}</span>
           </a>
