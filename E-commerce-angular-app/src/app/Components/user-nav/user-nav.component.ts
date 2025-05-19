@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
 import { BadgeModule } from 'primeng/badge';
@@ -12,11 +12,12 @@ import { RippleModule } from 'primeng/ripple';
   standalone: true,
   imports: [MenubarModule, BadgeModule, AvatarModule, InputTextModule, RippleModule, CommonModule],
   templateUrl: './user-nav.component.html',
-  styleUrl: './user-nav.component.scss'
+  styleUrl: './user-nav.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class UserNavComponent {
   items: MenuItem[] | undefined;
-
+  logout: boolean = false
   ngOnInit() {
       this.items = [
           {
