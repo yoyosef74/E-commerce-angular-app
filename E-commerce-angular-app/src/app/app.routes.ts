@@ -32,11 +32,36 @@ export const routes: Routes = [
   },
 
   {
-    path : 'user',
+    path : '',
     loadComponent : () => import ('./Layouts/user-layout/user-layout.component').then(
       (c) => c.UserLayoutComponent
     ),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    children: [
+      {
+        path: '', redirectTo: 'home', pathMatch:'full'
+      },
+      {
+        path: 'home' ,
+        loadComponent: () => import('./Pages/home/home.component').then((c) => c.HomeComponent)
+      },
+      {
+        path: 'cart',
+        loadComponent: () => import('./Pages/cart/cart.component').then((c) => c.CartComponent)
+      },
+      {
+        path: 'products',
+        loadComponent: () => import('./Pages/products/products.component').then((c) => c.ProductsComponent)
+      },
+      {
+        path: 'details',
+        loadComponent: () => import('./Pages/details/details.component').then((c) => c.DetailsComponent)
+      },
+      {
+        path: 'category',
+        loadComponent: () => import('./Pages/category/category.component').then((c) => c.CategoryComponent)
+      }
+    ]
   },
 
 ];
