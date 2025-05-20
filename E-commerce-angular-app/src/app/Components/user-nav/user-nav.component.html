@@ -17,15 +17,15 @@
       <ng-template pTemplate="end">
         <div class="card flex justify-content-center align-items-center gap-5">
             <a>
-              <i class="pi pi-shopping-cart text-3xl" pBadge value="2"></i>
+              <i class="pi pi-shopping-cart text-3xl" pBadge [value]="cartCount"></i>
             </a>
 
-            <a (click)="logout = !logout" class=" user-name p-3 border-round-2xl text-white bg-orange-400 font-bold capitalize relative cursor-pointer">
-              <span>Youssef Ashraf</span>
+            <a (click)="logout = !logout" class=" user-name p-3 text-white bg-orange-400 font-bold capitalize relative cursor-pointer">
+              <span>{{username}}</span>
 
               @if(logout)
               {
-                  <a class="logout py-2 px-5 text-white bg-orange-400 font-bold absolute left-50 flex align-items-center gap-2 border-round-2xl flex align-items-center">
+                  <a class="logout py-2 px-5 text-white bg-orange-400 font-bold absolute left-50 flex align-items-center gap-2 flex align-items-center">
                   <span>logout</span>
                   <span class="pi pi-sign-out"> </span>
               </a>

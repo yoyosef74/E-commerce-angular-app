@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
 import { SharedModule } from '../../shared/module/shared/shared.module';
+import { UserDataService } from '../../Core/service/user-data.service';
 
 @Component({
   selector: 'app-register',
@@ -26,7 +27,8 @@ export class RegisterComponent {
     private _authService: AuthService,
     private _messageService: MessageService,
     private _ngxSpinnerService: NgxSpinnerService,
-    private _router: Router
+    private _router: Router,
+    private _userDataService: UserDataService
   )
   {
     this.registrationForm = this.fb.group(
@@ -77,7 +79,9 @@ export class RegisterComponent {
           this._authService.login({email , password}).subscribe({
             next: () => {
               localStorage.setItem('token' , response._id)
-              this._router.navigate(['user']);
+              this._router.navigate(['home']);
+              this._userDataService.userName.next(response.name);
+              localStorage.setItem('username' , response.name);
             }
           })
         }

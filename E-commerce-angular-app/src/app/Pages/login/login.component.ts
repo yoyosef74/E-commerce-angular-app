@@ -6,6 +6,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
 import { ILogin } from '../../Core/interfaces/http';
 import { SharedModule } from '../../shared/module/shared/shared.module';
+import { UserDataService } from '../../Core/service/user-data.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,9 @@ export class LoginComponent {
     private _authService: AuthService,
     private _messageService: MessageService,
     private _ngxSpinnerService: NgxSpinnerService,
-    private _router: Router
+    private _router: Router,
+    private _userDataService: UserDataService
+
   )
   {
     this.loginForm = this.fb.group(
@@ -52,15 +55,15 @@ export class LoginComponent {
     this._authService.login(data).subscribe({
       next: (response) => {
         if(response._id){
-          console.log(response);
           this.show('success' , 'Success' , 'Success Login');
-          localStorage.setItem('token' , response._id)
+          localStorage.setItem('token' , response._id);
+          this._userDataService.userName.next(response.name);
+          localStorage.setItem('username' , response.name);
         }
         this._ngxSpinnerService.hide();
-        this._router.navigate(['user']);
+        this._router.navigate(['home']);
       },
       error: (err) => {
-        console.log(err);
           this.show('error', 'Error' , err.error.error);
           this._ngxSpinnerService.hide();
       }

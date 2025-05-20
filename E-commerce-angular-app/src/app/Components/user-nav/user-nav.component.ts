@@ -6,6 +6,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { InputTextModule } from 'primeng/inputtext';
 import { CommonModule } from '@angular/common';
 import { RippleModule } from 'primeng/ripple';
+import { UserDataService } from '../../Core/service/user-data.service';
 
 @Component({
   selector: 'app-user-nav',
@@ -16,9 +17,17 @@ import { RippleModule } from 'primeng/ripple';
   encapsulation: ViewEncapsulation.None
 })
 export class UserNavComponent {
+
+  constructor(private _userDataService: UserDataService){}
+
   items: MenuItem[] | undefined;
-  logout: boolean = false
+  logout: boolean = false;
+  username: string = '' ;
+  cartCount: number = 0 ;
+
   ngOnInit() {
+    this.getUserName();
+    this.getUserCartCount();
       this.items = [
           {
               label: 'Home',
@@ -37,5 +46,14 @@ export class UserNavComponent {
           },
 
       ];
+  }
+
+  getUserName(): void {
+    this._userDataService.userName.subscribe((next) => this.username = next);
+  }
+
+  getUserCartCount() : void {
+    const id = localStorage.getItem('token')?? '';
+    this._userDataService.getCartCount(id).subscribe((next) => this.cartCount = next.cart.length);
   }
 }
