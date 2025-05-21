@@ -25,10 +25,10 @@
 
               @if(logout)
               {
-                  <a class="logout py-2 px-5 text-white bg-orange-400 font-bold absolute left-50 flex align-items-center gap-2 flex align-items-center">
+                <a (click)="logOut()" class="logout py-2 px-5 text-white bg-orange-400 font-bold absolute left-50 flex align-items-center gap-2 flex align-items-center">
                   <span>logout</span>
                   <span class="pi pi-sign-out"> </span>
-              </a>
+                </a>
               }
 
             </a>

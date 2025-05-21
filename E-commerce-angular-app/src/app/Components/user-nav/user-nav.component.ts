@@ -7,6 +7,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CommonModule } from '@angular/common';
 import { RippleModule } from 'primeng/ripple';
 import { UserDataService } from '../../Core/service/user-data.service';
+import { AuthService } from '../../Core/service/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-nav',
@@ -18,7 +20,11 @@ import { UserDataService } from '../../Core/service/user-data.service';
 })
 export class UserNavComponent {
 
-  constructor(private _userDataService: UserDataService){}
+  constructor(
+    private _userDataService: UserDataService,
+    private _authService: AuthService,
+    private _router: Router
+  ){}
 
   items: MenuItem[] | undefined;
   logout: boolean = false;
@@ -55,5 +61,13 @@ export class UserNavComponent {
   getUserCartCount() : void {
     const id = localStorage.getItem('token')?? '';
     this._userDataService.getCartCount(id).subscribe((next) => this.cartCount = next.cart.length);
+  }
+
+  logOut() : void {
+    this._authService.logout().subscribe((next) => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('username');
+      this._router.navigate(['login']);
+    });
   }
 }
