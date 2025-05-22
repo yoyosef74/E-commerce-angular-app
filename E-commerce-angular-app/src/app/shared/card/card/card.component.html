@@ -51,13 +51,26 @@
           </div>
         </div>
         @if (!isSmallCard) {
-          <p-button
-            label="Add to cart"
-            severity="warning"
-            styleClass="my-2 uppercase w-full"
-            icon="pi pi-cart-plus text-2xl"
-            iconPos="right"
-          />
+          @if (!product.isAddedToCart) {
+            <p-button
+              (click)="addToCart(product._id); product.isAddedToCart = true"
+              label="Add to cart"
+              severity="warning"
+              styleClass="my-2 uppercase w-full"
+              icon="pi pi-cart-plus text-2xl"
+              iconPos="right"
+            />
+          }
+          @if (product.isAddedToCart) {
+            <p-button
+              [routerLink]="['/cart']"
+              label="Go to cart"
+              severity="contrast"
+              styleClass="my-2 uppercase w-full"
+              icon="pi pi-shopping-cart text-2xl"
+              iconPos="right"
+            />
+          }
         }
       </div>
     </div>
