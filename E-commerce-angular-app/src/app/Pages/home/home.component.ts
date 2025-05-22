@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { GalleriaModule } from 'primeng/galleria';
-import { UserDataService } from '../../Core/service/user-data.service';
 import { IProducts } from '../../Core/interfaces/http';
 import { CardComponent } from '../../shared/card/card/card.component';
 import { PopularPipe } from '../../Core/pipes/popular.pipe';
-
+import { ProductsService } from '../../Core/service/products.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +14,7 @@ import { PopularPipe } from '../../Core/pipes/popular.pipe';
 })
 export class HomeComponent {
 
-  constructor(private _userDataService: UserDataService){}
+  constructor(private _productsService: ProductsService){}
 
   images: any[] | undefined;
   smallProducts!: IProducts[];
@@ -49,9 +48,9 @@ export class HomeComponent {
     }
 
     getAllProducts(): void {
-      this._userDataService.allProducts().subscribe((next) => {
-        this.smallProducts = next.products.slice(0,4);
-        this.popularProducts = next.products;
+      this._productsService.allProducts().subscribe((next) => {
+        this.smallProducts = next.slice(0,4);
+        this.popularProducts = next;
       });
     }
 
