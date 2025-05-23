@@ -2,11 +2,11 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { FormBuilder ,Validators,FormControl, FormGroup, ValidatorFn, AbstractControl } from '@angular/forms';
 import { AuthService } from '../../Core/service/auth.service';
 import { IRegister } from '../../Core/interfaces/http';
-import { MessageService } from 'primeng/api';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
 import { SharedModule } from '../../shared/module/shared/shared.module';
 import { UserDataService } from '../../Core/service/user-data.service';
+import { NotificationsService } from '../../Core/service/notifications.service';
 
 @Component({
   selector: 'app-register',
@@ -21,11 +21,12 @@ import { UserDataService } from '../../Core/service/user-data.service';
 })
 export class RegisterComponent {
   registrationForm: FormGroup;
+  isRegistered: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private _authService: AuthService,
-    private _messageService: MessageService,
+    private _notificationsService: NotificationsService,
     private _ngxSpinnerService: NgxSpinnerService,
     private _router: Router,
     private _userDataService: UserDataService
@@ -61,6 +62,7 @@ export class RegisterComponent {
   submit(){
     if(this.registrationForm.valid){
       this.signUp(this.registrationForm.value);
+      this.isRegistered = true;
     }
     else{
       this.registrationForm.markAllAsTouched();
@@ -74,7 +76,7 @@ export class RegisterComponent {
     this._authService.register(data).subscribe({
       next: (response) => {
         if(response._id){
-          this.show('success' , 'Success' , 'User registered successfully');
+          this._notificationsService.showSuccess('Success' , 'User registered successfully');
           const {email , password} = data
           this._authService.login({email , password}).subscribe({
             next: () => {
@@ -88,19 +90,12 @@ export class RegisterComponent {
         this._ngxSpinnerService.hide();
       },
       error: (err) => {
-          this.show('error', 'Error' , err.error.error);
+          this._notificationsService.showError('Error' , err.error.error);
           this._ngxSpinnerService.hide();
       }
     });
   }
 
-  show(severity: string, summary: string, detail: string) {
-    this._messageService.add({
-      severity: severity,
-      summary: summary,
-      detail: detail
-    });
-  }
 
   get name() {
     return this.registrationForm.get('name');

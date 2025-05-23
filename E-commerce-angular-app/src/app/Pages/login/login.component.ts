@@ -1,12 +1,12 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormBuilder ,Validators, FormGroup} from '@angular/forms';
 import { AuthService } from '../../Core/service/auth.service';
-import { MessageService } from 'primeng/api';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
 import { ILogin } from '../../Core/interfaces/http';
 import { SharedModule } from '../../shared/module/shared/shared.module';
 import { UserDataService } from '../../Core/service/user-data.service';
+import { NotificationsService } from '../../Core/service/notifications.service';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +24,7 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private _authService: AuthService,
-    private _messageService: MessageService,
+    private _notificationsService: NotificationsService,
     private _ngxSpinnerService: NgxSpinnerService,
     private _router: Router,
     private _userDataService: UserDataService
@@ -55,7 +55,7 @@ export class LoginComponent {
     this._authService.login(data).subscribe({
       next: (response) => {
         if(response._id){
-          this.show('success' , 'Success' , 'Success Login');
+          this._notificationsService.showSuccess('Success' , 'Success Login');
           localStorage.setItem('token' , response._id);
           this._userDataService.userName.next(response.name);
           localStorage.setItem('username' , response.name);
@@ -64,17 +64,9 @@ export class LoginComponent {
         this._router.navigate(['home']);
       },
       error: (err) => {
-          this.show('error', 'Error' , err.error.error);
+          this._notificationsService.showError('Error' , err.error.error);
           this._ngxSpinnerService.hide();
       }
-    });
-  }
-
-  show(severity: string, summary: string, detail: string) {
-    this._messageService.add({
-      severity: severity,
-      summary: summary,
-      detail: detail
     });
   }
 
