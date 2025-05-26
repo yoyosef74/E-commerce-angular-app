@@ -60,6 +60,10 @@ export const routes: Routes = [
       {
         path: 'category',
         loadComponent: () => import('./Pages/category/category.component').then((c) => c.CategoryComponent)
+      },
+      {
+        path: 'specificCategory/:type',
+        loadComponent: () => import('./Pages/specific-category/specific-category.component').then((c) => c.SpecificCategoryComponent)
       }
     ]
   },

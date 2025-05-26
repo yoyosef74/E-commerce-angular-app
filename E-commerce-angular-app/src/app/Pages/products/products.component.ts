@@ -34,7 +34,7 @@ export class ProductsComponent {
 
   getAllProducts(): void {
     this._productsService.allProducts().subscribe( (next) => {
-      this.allProducts = next;
+      this.allProducts = next.products;
       console.log(this.allProducts);
     })
   }
