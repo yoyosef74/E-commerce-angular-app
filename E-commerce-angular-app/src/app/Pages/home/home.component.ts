@@ -4,6 +4,7 @@ import { IProducts } from '../../Core/interfaces/http';
 import { CardComponent } from '../../shared/card/card/card.component';
 import { PopularPipe } from '../../Core/pipes/popular.pipe';
 import { ProductsService } from '../../Core/service/products.service';
+import { CartService } from '../../Core/service/cart.service';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,7 @@ import { ProductsService } from '../../Core/service/products.service';
 })
 export class HomeComponent {
 
-  constructor(private _productsService: ProductsService){}
+  constructor(private _productsService: ProductsService, private _cart: CartService){}
 
   images: any[] | undefined;
   smallProducts!: IProducts[];
@@ -47,21 +48,17 @@ export class HomeComponent {
       this.getAllProducts();
     }
 
-    getAllProducts(): void {
-      const storedCart = localStorage.getItem('cartState');
-      const cartState = storedCart? JSON.parse(storedCart) : {};
-
+  getAllProducts(): void {
       this._productsService.allProducts().subscribe((response: any) => {
-        this.smallProducts = response.products.slice(0,4);
+        this.smallProducts = response.products.slice(0, 4);
         this.popularProducts = response.products.map((product: IProducts) => {
           return {
             ...product,
-            isAddedToCart: cartState[product.id] || false,
+            isAddedToCart: this._cart.isAddedToCart(product) || false,
           };
         });
-        console.log(this.popularProducts);
       });
-    }
+  }
 
 
 }

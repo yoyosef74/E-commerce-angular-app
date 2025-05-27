@@ -67,7 +67,7 @@
         @if (!productDetails.isAddedToCart) {
         <p-button
           (click)="
-            addToCart(productDetails.id); productDetails.isAddedToCart = true
+            addToCart(productDetails); productDetails.isAddedToCart = true
           "
           label="Add to cart"
           severity="warning"

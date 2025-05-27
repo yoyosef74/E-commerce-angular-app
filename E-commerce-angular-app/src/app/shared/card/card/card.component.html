@@ -53,7 +53,7 @@
         @if (!isSmallCard) {
           @if (!product.isAddedToCart) {
             <p-button
-              (click)="addToCart(product.id); product.isAddedToCart = true"
+              (click)="addToCart(product); product.isAddedToCart = true"
               label="Add to cart"
               severity="warning"
               styleClass="my-2 uppercase w-full"
