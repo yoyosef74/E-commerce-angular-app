@@ -15,14 +15,13 @@ import { NotificationsService } from '../../Core/service/notifications.service';
 })
 export class DetailsComponent {
   constructor(
-    private _productsService: ProductsService,
     private _activatedRoute: ActivatedRoute,
     private _cartService: CartService,
     private _notificationsService: NotificationsService
   ){}
 
   id: string = '' ;
-  productDetails!: IProducts;
+  productDetails: IProducts = {} as IProducts;
   isAddedToCart: boolean = false;
 
   ngOnInit(): void {
@@ -31,8 +30,8 @@ export class DetailsComponent {
   }
 
   displayDetails() : void {
-    this._productsService.getDeatils(this.id).subscribe( (hamada) => {
-      this.productDetails = hamada.product;
+    this._activatedRoute.data.subscribe( (data) => {
+      this.productDetails = data['details'].product
     });
   }
 
