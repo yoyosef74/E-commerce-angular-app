@@ -1,1 +1,91 @@
-<p>details works!</p>
+<section>
+  <div class="container">
+    <div class="grid align-items-center pb-5">
+      <div class="md:col-6">
+        <figure>
+          <img
+            class="w-full"
+            [src]="productDetails.image"
+            [alt]="productDetails.title"
+          />
+        </figure>
+      </div>
+      <div class="md:col-6">
+        <p class="font-medium font-bold font-italic mb-5">
+          {{ productDetails.title }}
+        </p>
+        <p class="font-medium text-sm my-1">
+          {{ productDetails.description }}
+        </p>
+        <div class="flex align-items-center gap-2 mb-4">
+          <div class="price flex gap-2 align-items-center">
+            <span class="text-color-secondary font-bold">
+              <del>14</del>
+            </span>
+            <span class="new-price font-bold">
+              <span class="text-green-400">$</span> {{ productDetails.price }}
+            </span>
+          </div>
+          <div class="offer">
+            <span class="bg-red-500 p-1 border-circle text-white text-xs"
+              >%{{ productDetails.discount }}</span
+            >
+            <span class="fonot-bold text-xs font-bold px-1">off</span>
+          </div>
+        </div>
+        <div class="flex align-items-center justify-content-between capitalize">
+          <p class="text-color-secondary my-2">Brand:</p>
+          <p class="font-bold text-orange-500 my-2">
+            {{ productDetails.brand }}
+          </p>
+        </div>
+        <div class="flex align-items-center justify-content-between capitalize">
+          <p class="text-color-secondary my-2">model:</p>
+          <p class="font-bold text-orange-500 my-2">
+            {{ productDetails.model }}
+          </p>
+        </div>
+        <div class="flex align-items-center justify-content-between capitalize">
+          <p class="text-color-secondary my-2">color:</p>
+          <p class="font-bold text-orange-500 my-2">
+            {{ productDetails.color }}
+          </p>
+        </div>
+        <div class="flex align-items-center justify-content-between capitalize">
+          <p class="text-color-secondary my-2">category:</p>
+          <p class="font-bold text-orange-500 my-2">
+            {{ productDetails.category }}
+          </p>
+        </div>
+        <div class="flex align-items-center justify-content-between capitalize">
+          <p class="text-color-secondary my-2">discount:</p>
+          <p class="font-bold text-orange-500 my-2">
+            {{ productDetails.discount }}
+          </p>
+        </div>
+
+        @if (!productDetails.isAddedToCart) {
+        <p-button
+          (click)="
+            addToCart(productDetails.id); productDetails.isAddedToCart = true
+          "
+          label="Add to cart"
+          severity="warning"
+          styleClass="my-2 uppercase w-full"
+          icon="pi pi-cart-plus text-2xl"
+          iconPos="right"
+        />
+        } @if (productDetails.isAddedToCart) {
+        <p-button
+          [routerLink]="['/cart']"
+          label="Go to cart"
+          severity="contrast"
+          styleClass="my-2 uppercase w-full"
+          icon="pi pi-shopping-cart text-2xl"
+          iconPos="right"
+        />
+        }
+      </div>
+    </div>
+  </div>
+</section>

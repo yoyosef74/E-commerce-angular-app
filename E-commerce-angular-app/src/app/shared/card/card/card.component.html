@@ -13,7 +13,7 @@
         }"
       >
         <figure
-          [routerLink]="['/cart' , product._id]"
+          [routerLink]="['/details' , product.id]"
           [ngClass]="{ 'md:w-6rem lg:w-9rem': isSmallCard,  }"
           class="m-1 shadow-2 border-round-2xl overflow-hidden cursor-pointer"
         >
@@ -53,7 +53,7 @@
         @if (!isSmallCard) {
           @if (!product.isAddedToCart) {
             <p-button
-              (click)="addToCart(product._id); product.isAddedToCart = true"
+              (click)="addToCart(product.id); product.isAddedToCart = true"
               label="Add to cart"
               severity="warning"
               styleClass="my-2 uppercase w-full"
