@@ -66,7 +66,8 @@ export const routes: Routes = [
       {
         path: 'specificCategory/:type',
         loadComponent: () => import('./Pages/specific-category/specific-category.component').then((c) => c.SpecificCategoryComponent)
-      }
+      },
+      {path: '**', redirectTo: 'home' , pathMatch: 'full'}
     ]
   },
 
